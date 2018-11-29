@@ -34,17 +34,17 @@ var dictionaryHandler = (request, response) => {
 }
 
 var downloadDictionary = (url, file, callback) => {
-  var stream = fs.createWriteStream(file);
-  var req = https.get(url, function(res) {
-    res.pipe(stream);
-    stream.on('finish', function() {
-      stream.close(callback);
-      console.log('dictionary downloaded');
+    var stream = fs.createWriteStream(file);
+    var req = https.get(url, function(res) {
+        res.pipe(stream);
+        stream.on('finish', function() {
+            stream.close(callback);
+            console.log('dictionary downloaded');
+        });
+    }).on('error', function(err) {
+        fs.unlink(file);
+        if (callback) callback(err.message);
     });
-  }).on('error', function(err) {
-    fs.unlink(file);
-    if (callback) cb(err.message);
-  });
 };
 
 var loadDictionary = (file, callback) => {
@@ -77,9 +77,9 @@ downloadDictionary('https://raw.githubusercontent.com/adambom/dictionary/master/
 const server = http.createServer(dictionaryHandler);
 
 server.listen(8080, (err) => {  
-  if (err) {
-    return console.log('error starting server: ' + err);
-  }
+    if (err) {
+        return console.log('error starting server: ' + err);
+    }
 
-  console.log('server is listening on 8080');
+    console.log('server is listening on 8080');
 });
