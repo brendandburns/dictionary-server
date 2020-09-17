@@ -8,7 +8,7 @@ var dictionary = null;
 var dictionaryHandler = (request, response) => {
     var u = url.parse(request.url);
 
-    if (u.pathname == '/readyz') {
+    if (u.pathname == '/ready') {
         if (dictionary) {
             response.writeHead(200);
             response.end('OK');
@@ -42,8 +42,8 @@ var downloadDictionary = (url, file, callback) => {
       console.log('dictionary downloaded');
     });
   }).on('error', function(err) {
-    fs.unlink(file);
-    if (callback) cb(err.message);
+    fs.unlinkSync(file);
+    if (callback) callback(err.message);
   });
 };
 

@@ -1,4 +1,4 @@
-FROM node:7.5-slim
+FROM node:alpine3.11
 
 COPY server.js /server.js
 
